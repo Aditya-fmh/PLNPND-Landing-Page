@@ -1,11 +1,6 @@
 [build]
-  command = "bash ./netlify-build.sh"
+  command = "npm install && npm run build"
   publish = "out"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
   NODE_VERSION = "20.11.1"
-  NPM_FLAGS = "--no-audit --production=false"

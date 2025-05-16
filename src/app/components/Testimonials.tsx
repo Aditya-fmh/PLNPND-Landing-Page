@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 // Real testimonial data from Google Reviews
 const testimonials = [
   {
@@ -55,9 +53,8 @@ export default function Testimonials() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{testimonial.role}</p>
-                </div>
-              </div>              <p className="text-gray-700 dark:text-gray-300">"{testimonial.content}"</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{testimonial.role}</p>                </div>
+              </div>              <p className="text-gray-700 dark:text-gray-300">&ldquo;{testimonial.content}&rdquo;</p>
               <div className="mt-4 flex">
                 {[...Array(5)].map((_, i) => (
                   <svg 

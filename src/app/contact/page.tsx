@@ -2,45 +2,30 @@
 
 import { useEffect, useState } from 'react';
 import { FaWhatsapp, FaInstagram, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Fix for Leaflet marker icon in Next.js
-const customIcon = () => {
-  return new L.Icon({
-    iconUrl: '/marker-icon.png',
-    iconRetinaUrl: '/marker-icon-2x.png',
-    shadowUrl: '/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  });
-};
+import dynamic from 'next/dynamic';
 
 // Store location (Pusat Laptop Nusantara Pangandaran)
 // Exact coordinates from Google Maps
 const storeLocation: [number, number] = [-7.6785631, 108.6372878];
+
+// Dynamically import the map components with SSR disabled
+const MapComponentWithNoSSR = dynamic(
+  () => import('./map-component'),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-full min-h-[500px] bg-gray-100 dark:bg-gray-700">
+        <p className="text-gray-500 dark:text-gray-400">Memuat peta...</p>
+      </div>
+    )
+  }
+);
 
 export default function Contact() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    
-    // Add marker icon files if they don't already exist in the public folder
-    const addMarkerIcons = async () => {
-      try {
-        // In a real app, you'd copy these files in your build process
-        // This is a simulated approach for demonstration
-        console.log('Map initialization complete');
-      } catch (error) {
-        console.error('Error setting up map markers:', error);
-      }
-    };
-    
-    addMarkerIcons();
   }, []);
   
   return (
@@ -63,7 +48,8 @@ export default function Contact() {
                 <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
                   <FaMapMarkerAlt className="text-blue-600 dark:text-blue-300" />
                 </div>
-                <div>                  <h3 className="font-semibold text-gray-900 dark:text-white">Alamat</h3>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">Alamat</h3>
                   <p className="text-gray-600 dark:text-gray-400 mt-1">
                     Ruko Lovina No.37, Wonoharjo, Kec. Pangandaran, Kab. Pangandaran, Jawa Barat 46396
                   </p>
@@ -163,31 +149,7 @@ export default function Contact() {
           
           {/* Map */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden h-full">
-            {isMounted && (
-              <div className="h-full min-h-[500px]">
-                <MapContainer 
-                  center={storeLocation} 
-                  zoom={15} 
-                  style={{ height: '100%', width: '100%' }}
-                  scrollWheelZoom={false}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />                  <Marker position={storeLocation} icon={customIcon()}>
-                    <Popup>
-                      <div className="text-center p-2">
-                        <strong className="text-lg">Pusat Laptop Nusantara Pangandaran</strong><br />
-                        <span className="text-sm text-gray-600">Toko Laptop Bekas Berkualitas</span><br />
-                        <hr className="my-2" />
-                        Jam Buka: 08:00 - 19:30 WIB<br />
-                        WhatsApp: <a href="https://wa.me/6288221957963" className="text-blue-600 hover:underline">088221957963</a>
-                      </div>
-                    </Popup>
-                  </Marker>
-                </MapContainer>
-              </div>
-            )}
+            {isMounted && <MapComponentWithNoSSR position={storeLocation} />}
           </div>
         </div>
       </div>

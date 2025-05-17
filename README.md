@@ -5,28 +5,12 @@ A landing page for "Pusat Laptop Nusantara Pangandaran", a used laptop store in 
 ## Features
 
 - Responsive design for all device sizes
-- Dark and light mode support
 - Interactive laptop catalog with filtering
 - Beautiful product display with detailed specifications
 - Contact page with interactive map
 - Customer testimonials
-- Modern UI with smooth transitions
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Technologies Used
+## Tech Stack
 
 - Next.js 14
 - TypeScript

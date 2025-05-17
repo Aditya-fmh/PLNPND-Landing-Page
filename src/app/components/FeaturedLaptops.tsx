@@ -1,27 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { laptops } from '../data/laptops';
 
-// Featured laptops data
-const featuredLaptops = [
-  {
-    id: 1,
-    name: 'Toshiba Dynabook B55',
-    specs: 'Intel Core i5-6200U (Gen 6)',
-    details: 'RAM 8 GB, SSD 120 GB, Display 15,6"',
-    price: 'Rp 2.600.000',
-    condition: 'Excellent',
-    image: '/B55.jpg',
-  },
-  {
-    id: 2,
-    name: 'HP EliteBook 840 G3',
-    specs: 'Intel Core i5-6300U (Gen 6)',
-    details: 'RAM 8 GB, SSD 256 GB, Display 14"',
-    price: 'Rp 3.000.000',
-    condition: 'Very Good',
-    image: '/HP.jpg',
-  },
-];
+// Get featured laptops from the shared data
+const featuredLaptops = laptops
+  .filter(laptop => laptop.id === 9 || laptop.id === 7) // Toshiba B55 and HP EliteBook
+  .map(laptop => ({
+    ...laptop,
+    condition: laptop.id === 9 ? 'Harga Termurah' : 'Best Deal' // Override condition for featured display
+  }));
 
 export default function FeaturedLaptops() {
   return (
@@ -51,11 +38,10 @@ export default function FeaturedLaptops() {
                 </span>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">{laptop.name}</h3>
                 <p className="text-gray-700 dark:text-gray-300 mt-1 font-medium">{laptop.specs}</p>
-                <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{laptop.details}</p>
-                <div className="mt-4 flex justify-between items-center">
+                <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{laptop.details}</p>                <div className="mt-4 flex justify-between items-center">
                   <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
                   <Link 
-                    href={`/catalog/${laptop.id}`}
+                    href={`/catalog/detail?id=${laptop.id}`}
                     className="text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
                   >
                     Detail

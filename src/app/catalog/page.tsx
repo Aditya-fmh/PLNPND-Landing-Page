@@ -3,76 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-// Sample data for laptops
-const laptops = [
-  {
-    id: 1,
-    name: 'DELL Vostro 15',
-    specs: 'Intel Core i5 Gen 7',
-    details: 'RAM 8 GB, SSD 120 GB, Display 15,6"',
-    price: 'Rp 3.300.000',
-    condition: 'Excellent',
-    description: 'Laptop bisnis dengan performa handal dan baterai tahan lama.',
-    image: '/Vostro.jpg',
-    brand: 'dell',
-  },
-  {
-    id: 2,
-    name: 'HP EliteBook 840 G3',
-    specs: 'Intel Core i5 Gen 6',
-    details: 'RAM 8 GB, SSD 256 GB, Display 14"',
-    price: 'Rp 3.000.000',
-    condition: 'Very Good',
-    description: 'Laptop bisnis premium dengan performa stabil dan desain portabel.',
-    image: '/HP.jpg',
-    brand: 'hp',
-  },
-  {
-    id: 3,
-    name: 'Lenovo ThinkPad T460',
-    specs: 'Intel Core i5 Gen 6',
-    details: 'RAM 8 GB, SSD 256 GB, Display 14", Keyboard Backlight',
-    price: 'Rp 3.250.000',
-    condition: 'Excellent',
-    description: 'Laptop bisnis tangguh dengan keyboard backlight dan performa stabil.',
-    image: '/T460.jpg',
-    brand: 'lenovo',
-  },
-  {
-    id: 4,
-    name: 'Toshiba Dynabook B55',
-    specs: 'Intel Core i5 Gen 6',
-    details: 'RAM 8 GB, SSD 120 GB, Display 15,6"',
-    price: 'Rp 2.600.000',
-    condition: 'Very Good',
-    description: 'Laptop bisnis dengan harga terjangkau dan performa stabil.',
-    image: '/B55.jpg',
-    brand: 'toshiba',
-  },
-  {
-    id: 5,
-    name: 'Toshiba Dynabook B65',
-    specs: 'Intel Core i5 Gen 7',
-    details: 'RAM 8 GB, SSD 120 GB, Display 15,6"',
-    price: 'Rp 2.700.000',
-    condition: 'Good',
-    description: 'Laptop bisnis dengan performa yang lebih baik dari seri sebelumnya.',
-    image: '/B65.jpg',
-    brand: 'toshiba',
-  },
-  {
-    id: 6,
-    name: 'Toshiba Dynabook G83',
-    specs: 'Intel Core i5 Gen 8',
-    details: 'RAM 8 GB, SSD 256 GB, Display 13,3"',
-    price: 'Rp 3.500.000',
-    condition: 'Excellent',
-    description: 'Laptop bisnis premium dengan desain ringkas dan performa tinggi.',
-    image: '/G83.jpg',
-    brand: 'toshiba',
-  },
-];
+import { laptops } from '../data/laptops';
 
 export default function Catalog() {
   const [filteredLaptops, setFilteredLaptops] = useState(laptops);
@@ -231,11 +162,10 @@ export default function Catalog() {
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">{laptop.name}</h3>
                   <p className="text-gray-700 dark:text-gray-300 text-sm mt-2 font-medium">{laptop.specs}</p>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{laptop.details}</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{laptop.description}</p>
-                  <div className="mt-4 flex justify-between items-center">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{laptop.description}</p>                  <div className="mt-4 flex justify-between items-center">
                     <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
                     <Link 
-                      href={`/catalog/${laptop.id}`}
+                      href={`/catalog/detail?id=${laptop.id}`}
                       className="text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
                     >
                       Detail

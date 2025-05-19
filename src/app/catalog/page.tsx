@@ -6,13 +6,12 @@ import Link from 'next/link';
 import { laptops } from '../data/laptops';
 
 export default function Catalog() {
-  const [filteredLaptops, setFilteredLaptops] = useState(laptops);
-  const [filters, setFilters] = useState({
+  const [filteredLaptops, setFilteredLaptops] = useState(laptops);  const [filters, setFilters] = useState({
     price: '',
     brand: '',
-    processor: ''
+    processor: '',
+    condition: ''
   });
-
   // Apply filters whenever the filter state changes
   useEffect(() => {
     let result = [...laptops];
@@ -31,6 +30,17 @@ export default function Catalog() {
           return laptop.specs.includes('Core i7');
         }
         return true;
+      });
+    }
+    
+    // Filter by condition
+    if (filters.condition) {
+      result = result.filter(laptop => {
+        if (Array.isArray(laptop.condition)) {
+          return laptop.condition.includes(filters.condition);
+        } else {
+          return laptop.condition === filters.condition;
+        }
       });
     }
     
@@ -72,8 +82,7 @@ export default function Catalog() {
         
         {/* Filters - Simple version */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter</h2>          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Harga
@@ -117,17 +126,34 @@ export default function Catalog() {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Processor</option>
+                <option value="celeron">Intel Celeron</option>
                 <option value="i5">Intel Core i5</option>
                 <option value="i7">Intel Core i7</option>
               </select>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Kegunaan
+              </label>
+              <select 
+                name="condition"
+                value={filters.condition}
+                onChange={handleFilterChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="">Semua Kegunaan</option>
+                <option value="Sekolah">Sekolah</option>
+                <option value="Kantoran">Kantoran</option>
+                <option value="Desain Grafis">Desain Grafis</option>
+                <option value="Gaming Ringan">Gaming Ringan</option>
+              </select>
+            </div>
           </div>
-          
-          {/* Reset filters button */}
-          {(filters.price || filters.brand || filters.processor) && (
+            {/* Reset filters button */}
+          {(filters.price || filters.brand || filters.processor || filters.condition) && (
             <div className="mt-4 text-right">
               <button
-                onClick={() => setFilters({ price: '', brand: '', processor: '' })}
+                onClick={() => setFilters({ price: '', brand: '', processor: '', condition: '' })}
                 className="text-sm text-blue-600 hover:text-blue-800 font-medium"
               >
                 Reset Filter
@@ -154,11 +180,25 @@ export default function Catalog() {
                       className="p-3"
                     />
                   </div>
-                </div>
-                <div className="p-6">
-                  <span className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full mb-2 inline-block">
-                    {laptop.condition}
-                  </span>
+                </div>                <div className="p-6">                  <div className="flex flex-wrap gap-1 mb-2">
+                    {Array.isArray(laptop.condition) ? (
+                      laptop.condition.map((tag, index) => (
+                        <button 
+                          key={index} 
+                          onClick={() => setFilters(prev => ({ ...prev, condition: tag }))}
+                          className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
+                        >
+                          {tag}
+                        </button>
+                      ))                    ) : (
+                      <button 
+                        onClick={() => setFilters(prev => ({ ...prev, condition: laptop.condition as string }))}
+                        className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
+                      >
+                        {laptop.condition}
+                      </button>
+                    )}
+                  </div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">{laptop.name}</h3>
                   <p className="text-gray-700 dark:text-gray-300 text-sm mt-2 font-medium">{laptop.specs}</p>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{laptop.details}</p>
@@ -185,9 +225,8 @@ export default function Catalog() {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Tidak Ada Laptop Yang Sesuai</h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
               Maaf, tidak ada laptop yang sesuai dengan filter yang dipilih. Silakan coba filter yang berbeda.
-            </p>
-            <button
-              onClick={() => setFilters({ price: '', brand: '', processor: '' })}
+            </p>            <button
+              onClick={() => setFilters({ price: '', brand: '', processor: '', condition: '' })}
               className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-full transition"
             >
               Reset Filter

@@ -4,10 +4,11 @@ import { laptops } from '../data/laptops';
 
 // Get featured laptops from the shared data
 const featuredLaptops = laptops
-  .filter(laptop => laptop.id === 9 || laptop.id === 7) // Toshiba B55 and HP EliteBook
+  .filter(laptop => laptop.id === 9 || laptop.id === 7)
   .map(laptop => ({
     ...laptop,
-    condition: laptop.id === 9 ? 'Harga Termurah' : 'Best Deal' // Override condition for featured display
+    // Override condition for featured display with custom tags
+    condition: laptop.id === 9 ? ['Harga Termurah', 'Popular'] : ['Best Deal', 'Terlaris']
   }));
 
 export default function FeaturedLaptops() {
@@ -32,10 +33,20 @@ export default function FeaturedLaptops() {
                     priority={laptop.id === 1}
                   />
                 </div>
-              </div><div className="p-6">
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full mb-2 inline-block">
-                  {laptop.condition}
-                </span>
+              </div>              <div className="p-6">
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {Array.isArray(laptop.condition) ? (
+                    laptop.condition.map((tag, index) => (
+                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block">
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block">
+                      {laptop.condition}
+                    </span>
+                  )}
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">{laptop.name}</h3>
                 <p className="text-gray-700 dark:text-gray-300 mt-1 font-medium">{laptop.specs}</p>
                 <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{laptop.details}</p>                <div className="mt-4 flex justify-between items-center">

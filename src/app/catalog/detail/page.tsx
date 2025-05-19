@@ -12,7 +12,10 @@ function ProductDetails() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [laptop, setLaptop] = useState<Laptop | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentPrice, setCurrentPrice] = useState<string>('');
+  const [currentDetails, setCurrentDetails] = useState<string>('');
 
   useEffect(() => {
     if (id) {
@@ -21,10 +24,25 @@ function ProductDetails() {
       
       if (product) {
         setLaptop(product);
+        setCurrentPrice(product.price);
+        setCurrentDetails(product.details);
       }
     }
     setLoading(false);
   }, [id]);
+
+  useEffect(() => {
+    if (laptop?.variants && selectedVariant) {
+      const variant = laptop.variants.find(v => v.id === selectedVariant);
+      if (variant) {
+        setCurrentPrice(variant.price);
+        setCurrentDetails(variant.details);
+      }
+    } else if (laptop) {
+      setCurrentPrice(laptop.price);
+      setCurrentDetails(laptop.details);
+    }
+  }, [selectedVariant, laptop]);
 
   if (loading) {
     return (
@@ -97,15 +115,23 @@ function ProductDetails() {
             </div>
 
             {/* Product Information */}
-            <div>
-              <span className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-sm rounded-full mb-3 inline-block">
-                {laptop.condition}
-              </span>
+            <div>              <div className="flex flex-wrap gap-1 mb-3">
+                {Array.isArray(laptop.condition) ? (
+                  laptop.condition.map((tag, index) => (
+                    <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-sm rounded-full inline-block">
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-sm rounded-full inline-block">
+                    {laptop.condition}
+                  </span>
+                )}
+              </div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{laptop.name}</h1>
-              
-              <div className="mb-6">
+                <div className="mb-6">
                 <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">
-                  {laptop.price}
+                  {currentPrice}
                 </p>
                 <p className="text-sm text-green-600 dark:text-green-400">
                   Termasuk: <br />
@@ -114,7 +140,39 @@ function ProductDetails() {
                   Tas & Mouse <br />
                   Free Install Aplikasi
                 </p>
-              </div>
+              </div>              {laptop.variants && laptop.variants.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Varian</h3>
+                  <div className="flex flex-col gap-3">
+                    <div 
+                      key="default"
+                      onClick={() => setSelectedVariant(null)}
+                      className={`border ${!selectedVariant ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'} rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{laptop.details}</p>
+                        </div>
+                        <div className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</div>
+                      </div>
+                    </div>
+                    {laptop.variants.map((variant) => (
+                      <div 
+                        key={variant.id}
+                        onClick={() => setSelectedVariant(variant.id)}
+                        className={`border ${selectedVariant === variant.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'} rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{variant.details}</p>
+                          </div>
+                          <div className="text-blue-600 dark:text-blue-400 font-bold">{variant.price}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Spesifikasi</h3>
@@ -123,14 +181,24 @@ function ProductDetails() {
                   <div className="flex">
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Processor</dt>
                     <dd className="text-gray-900 dark:text-white">{laptop.specs}</dd>
-                  </div>
-                  <div className="flex">
+                  </div>                  <div className="flex">
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Detail</dt>
-                    <dd className="text-gray-900 dark:text-white">{laptop.details}</dd>
-                  </div>
-                  <div className="flex">
+                    <dd className="text-gray-900 dark:text-white">{currentDetails}</dd>
+                  </div>                  <div className="flex">
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Kondisi</dt>
-                    <dd className="text-gray-900 dark:text-white">{laptop.condition}</dd>
+                    <dd className="text-gray-900 dark:text-white">
+                      {Array.isArray(laptop.condition) ? (
+                        <div className="flex flex-wrap gap-1">
+                          {laptop.condition.map((tag, index) => (
+                            <span key={index} className="px-2 py-1 bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        laptop.condition
+                      )}
+                    </dd>
                   </div>
                   <div className="flex">
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Brand</dt>
@@ -147,9 +215,8 @@ function ProductDetails() {
               </div>
 
               {/* Call to Action */}
-              <div className="mt-8 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                <a 
-                  href={`https://wa.me/6288221957963?text=Halo, saya tertarik dengan laptop ${laptop.name} (${laptop.price}). Apakah masih tersedia?`}
+              <div className="mt-8 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">                <a 
+                  href={`https://wa.me/6288221957963?text=Halo, saya tertarik dengan laptop ${laptop.name} (${currentPrice}) ${selectedVariant ? `dengan ${currentDetails}` : ''}. Apakah masih tersedia?`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition flex items-center justify-center"
@@ -191,8 +258,20 @@ function ProductDetails() {
                       style={{ objectFit: 'contain' }}
                       className="p-3"
                     />
-                  </div>
-                  <div className="p-4">
+                  </div>                  <div className="p-4">
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {Array.isArray(relatedLaptop.condition) ? (
+                        relatedLaptop.condition.map((tag, index) => (
+                          <span key={index} className="px-1.5 py-0.5 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block">
+                            {tag}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="px-1.5 py-0.5 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block">
+                          {relatedLaptop.condition}
+                        </span>
+                      )}
+                    </div>
                     <h3 className="text-base font-semibold text-gray-900 dark:text-white truncate">{relatedLaptop.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{relatedLaptop.specs}</p>
                     <div className="mt-3 flex justify-between items-center">

@@ -2,37 +2,45 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Function to close menu and restore scrolling
+  const closeMenu = () => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+  
   // Toggle mobile menu and manage body scroll
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    
-    // Prevent scrolling when menu is open
     if (!mobileMenuOpen) {
+      // Opening menu
+      setMobileMenuOpen(true);
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto';
+      // Closing menu
+      closeMenu();
     }
   };
-
-  // Cleanup function when component unmounts
+  // Cleanup function when component unmounts and ensure scrolling is always restored
   useEffect(() => {
+    // Ensure body scrolling is always available when the component loads
+    document.body.style.overflow = 'auto';
+    
     return () => {
       // Restore body scrolling when component unmounts
       document.body.style.overflow = 'auto';
     };
   }, []);
-
   // Close menu when escape key is pressed
   useEffect(() => {
     const handleEscapeKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-        document.body.style.overflow = 'auto';
+        closeMenu();
       }
     };
 
@@ -88,25 +96,24 @@ export default function Navbar() {
         } md:hidden flex flex-col pt-16`}
       >
           <div className="flex flex-col items-center justify-center flex-grow">
-          <div className="flex flex-col space-y-10 text-center">
-            <Link 
+          <div className="flex flex-col space-y-10 text-center">            <Link 
               href="/" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={closeMenu}
             >
               Beranda
             </Link>
             <Link 
               href="/catalog" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={closeMenu}
             >
               Katalog
             </Link>
             <Link 
               href="/contact" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={closeMenu}
             >
               Kontak
             </Link>

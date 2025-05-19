@@ -29,10 +29,9 @@ export default function Navbar() {
   useEffect(() => {
     // Set initial state
     document.body.style.overflow = mobileMenuOpen ? 'hidden' : 'auto';
-    
-    // Handle clicks on links within the mobile menu to ensure proper navigation
-    const handleLinkClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+      // Handle clicks on links within the mobile menu to ensure proper navigation
+    const handleLinkClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
       // Check if clicked element is a link or inside a link in the mobile menu
       const linkElement = target.closest('a');
       if (linkElement && mobileMenuOpen) {
@@ -126,7 +125,7 @@ export default function Navbar() {
           <div className="flex flex-col items-center justify-center flex-grow">          <div className="flex flex-col space-y-10 text-center">            <Link 
               href="/" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={(e) => {
+              onClick={() => {
                 closeMenu();
                 // Allow default navigation behavior
               }}
@@ -136,7 +135,7 @@ export default function Navbar() {
             <Link 
               href="/catalog" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={(e) => {
+              onClick={() => {
                 closeMenu();
                 // Allow default navigation behavior
               }}
@@ -146,7 +145,7 @@ export default function Navbar() {
             <Link 
               href="/contact" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={(e) => {
+              onClick={() => {
                 closeMenu();
                 // Allow default navigation behavior
               }}

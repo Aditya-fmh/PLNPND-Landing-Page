@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
-  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   // Function to close menu and restore scrolling
   const closeMenu = () => {
     setMobileMenuOpen(false);
-    document.body.style.overflow = 'auto';
+    // Use setTimeout to ensure the menu transition completes before restoring scrolling
+    setTimeout(() => {
+      document.body.style.overflow = 'auto';
+    }, 300); // Match the transition duration from CSS (300ms)
   };
   
   // Toggle mobile menu and manage body scroll
@@ -25,17 +25,45 @@ export default function Navbar() {
       // Closing menu
       closeMenu();
     }
-  };
-  // Cleanup function when component unmounts and ensure scrolling is always restored
+  };  // Ensure body scrolling is properly managed
   useEffect(() => {
-    // Ensure body scrolling is always available when the component loads
-    document.body.style.overflow = 'auto';
+    // Set initial state
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : 'auto';
+    
+    // Handle clicks on links within the mobile menu to ensure proper navigation
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Check if clicked element is a link or inside a link in the mobile menu
+      const linkElement = target.closest('a');
+      if (linkElement && mobileMenuOpen) {
+        // Close menu with delay to allow smooth transition
+        closeMenu();
+      }
+    };
+    
+    document.addEventListener('click', handleLinkClick);
     
     return () => {
-      // Restore body scrolling when component unmounts
+      // Cleanup on component unmount
+      document.removeEventListener('click', handleLinkClick);
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [mobileMenuOpen]);
+  
+  // Force restore scrolling on page visibility changes
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && !mobileMenuOpen) {
+        document.body.style.overflow = 'auto';
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [mobileMenuOpen]);
   // Close menu when escape key is pressed
   useEffect(() => {
     const handleEscapeKey = (e: KeyboardEvent) => {
@@ -95,25 +123,33 @@ export default function Navbar() {
           mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
         } md:hidden flex flex-col pt-16`}
       >
-          <div className="flex flex-col items-center justify-center flex-grow">
-          <div className="flex flex-col space-y-10 text-center">            <Link 
+          <div className="flex flex-col items-center justify-center flex-grow">          <div className="flex flex-col space-y-10 text-center">            <Link 
               href="/" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={closeMenu}
+              onClick={(e) => {
+                closeMenu();
+                // Allow default navigation behavior
+              }}
             >
               Beranda
             </Link>
             <Link 
               href="/catalog" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={closeMenu}
+              onClick={(e) => {
+                closeMenu();
+                // Allow default navigation behavior
+              }}
             >
               Katalog
             </Link>
             <Link 
               href="/contact" 
               className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
-              onClick={closeMenu}
+              onClick={(e) => {
+                closeMenu();
+                // Allow default navigation behavior
+              }}
             >
               Kontak
             </Link>

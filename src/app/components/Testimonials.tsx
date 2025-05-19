@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 // Real testimonial data from Google Reviews
 const testimonials = [
   {
@@ -45,9 +47,8 @@ export default function Testimonials() {
             <div 
               key={testimonial.id} 
               className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition"
-            >              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
-                  <img 
+            >              <div className="flex items-center mb-6">                <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                  <Image 
                     src={testimonial.avatar} 
                     alt={`${testimonial.name}'s profile`} 
                     width={48} 

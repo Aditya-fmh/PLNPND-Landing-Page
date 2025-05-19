@@ -116,23 +116,9 @@ function ProductDetails() {
                 className="p-6"
                 priority
               />
-            </div>
-
-            {/* Product Information */}
-            <div>              <div className="flex flex-wrap gap-1 mb-3">
-                {Array.isArray(laptop.condition) ? (
-                  laptop.condition.map((tag, index) => (
-                    <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-sm rounded-full inline-block">
-                      {tag}
-                    </span>
-                  ))
-                ) : (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-sm rounded-full inline-block">
-                    {laptop.condition}
-                  </span>
-                )}
-              </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{laptop.name}</h1>                <div className="mb-6">
+            </div>            {/* Product Information */}
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 mt-2">{laptop.name}</h1><div className="mb-6">
                 <div className="flex items-center gap-2 mb-1">
                   <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
                     {currentPrice}
@@ -242,18 +228,10 @@ function ProductDetails() {
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Brand</dt>
                     <dd className="text-gray-900 dark:text-white capitalize">{laptop.brand}</dd>
                   </div>
-                </dl>
-              </div>
-
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Deskripsi</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {laptop.description}
-                </p>
-              </div>
+                </dl>              </div>
 
               {/* Call to Action */}
-              <div className="mt-8 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">                <a 
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4"><a 
                   href={`https://wa.me/6288221957963?text=Halo, saya tertarik dengan laptop ${laptop.name} (${currentPrice}) ${selectedVariant ? `dengan ${currentDetails}` : ''}. Apakah masih tersedia?`}
                   target="_blank"
                   rel="noopener noreferrer"

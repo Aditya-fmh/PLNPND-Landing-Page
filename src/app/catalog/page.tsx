@@ -185,31 +185,31 @@ export default function Catalog() {
                       className="p-3"
                     />
                   </div>
-                </div><div className="p-6">                  <div className="flex flex-wrap gap-1 mb-2">
+                </div><div className="p-3 md:p-6">                  <div className="flex flex-wrap gap-1 mb-2">
                     {Array.isArray(laptop.condition) ? (
                       laptop.condition.map((tag, index) => (
                         <button 
                           key={index} 
                           onClick={() => setFilters(prev => ({ ...prev, condition: tag }))}
-                          className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
+                          className="px-1 py-0.5 md:px-2 md:py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
                         >
                           {tag}
                         </button>
                       ))                    ) : (
                       <button 
                         onClick={() => setFilters(prev => ({ ...prev, condition: laptop.condition as string }))}
-                        className="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
+                        className="px-1 py-0.5 md:px-2 md:py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs rounded-full inline-block hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer transition-colors"
                       >
                         {laptop.condition}
                       </button>
                     )}
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">{laptop.name}</h3>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm mt-2 font-medium">{laptop.specs}</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{laptop.details}</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{laptop.description}</p>                <div className="mt-4 flex justify-between items-center">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 dark:text-white mt-2">{laptop.name}</h3>
+                  <p className="text-xs md:text-sm text-gray-700 dark:text-gray-300 mt-2 font-medium">{laptop.specs}</p>
+                  <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1">{laptop.details}</p>
+                  <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">{laptop.description}</p>                <div className="mt-3 md:mt-4 flex justify-between items-center">
                     <div className="flex flex-col">
-                      <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                      <span className="text-sm md:text-base text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
                       {laptop.originalPrice && (
                         <span className="text-xs text-gray-500 line-through">
                           {laptop.originalPrice}
@@ -218,7 +218,7 @@ export default function Catalog() {
                     </div>
                     <Link 
                       href={`/catalog/detail?id=${laptop.id}`}
-                      className="text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
+                      className="text-xs md:text-sm bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 md:py-2 md:px-4 rounded transition"
                     >
                       Detail
                     </Link>

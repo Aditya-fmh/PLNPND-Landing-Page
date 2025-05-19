@@ -2,6 +2,8 @@ export interface LaptopVariant {
   id: string;
   details: string;
   price: string;
+  originalPrice?: string; // Original price before discount
+  discountPercentage?: number; // Discount percentage
 }
 
 export interface Laptop {
@@ -10,6 +12,8 @@ export interface Laptop {
   specs: string;
   details: string;
   price: string;
+  originalPrice?: string; // Original price before discount
+  discountPercentage?: number; // Discount percentage (e.g., 15 for 15%)
   condition: string | string[];
   description: string;
   image: string;
@@ -33,6 +37,8 @@ export const laptops: Laptop[] = [  {
     specs: 'Intel Core i5 Gen 7',
     details: 'RAM 8 GB, SSD 256 GB, Display 14"',
     price: 'Rp 3.500.000',
+    originalPrice: 'Rp 3.900.000',
+    discountPercentage: 10,
     condition: ['Bekas', 'Sekolah', 'Kantoran', 'Desain Grafis'],
     description: 'Laptop bisnis dengan performa handal dan desain premium.',
     image: '/5480.jpg',
@@ -73,6 +79,8 @@ export const laptops: Laptop[] = [  {
     specs: 'Intel Core i5 Gen 8',
     details: 'RAM 8 GB, SSD 256 GB, Display 14"',
     price: 'Rp 3.600.000',
+    originalPrice: 'Rp 4.000.000',
+    discountPercentage: 10,
     condition: ['Bekas', 'Sekolah', 'Kantoran', 'Desain Grafis', 'Gaming Ringan'],
     description: 'Laptop bisnis premium dengan desain ringkas dan performa tinggi.',
     image: '/L480.jpg',
@@ -81,7 +89,9 @@ export const laptops: Laptop[] = [  {
       {
         id: "512gb",
         details: 'RAM 8 GB, SSD 512 GB, Display 14"',
-        price: 'Rp 3.850.000'
+        price: 'Rp 3.850.000',
+        originalPrice: 'Rp 4.250.000',
+        discountPercentage: 9
       }
     ]
   },  {
@@ -120,6 +130,8 @@ export const laptops: Laptop[] = [  {
     specs: 'Intel Core i5 Gen 7',
     details: 'RAM 8 GB, SSD 120 GB, Display 15,6"',
     price: 'Rp 2.700.000',
+    originalPrice: 'Rp 3.100.000',
+    discountPercentage: 13,
     condition: ['Bekas', 'Sekolah', 'Kantoran', 'Desain Grafis'],
     description: 'Laptop bisnis dengan performa yang lebih baik dari seri sebelumnya.',
     image: '/B65.jpg',

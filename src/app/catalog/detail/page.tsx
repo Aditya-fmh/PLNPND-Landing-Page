@@ -101,9 +101,13 @@ function ProductDetails() {
         </nav>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Product Image */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">            {/* Product Image */}
             <div className="relative bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg aspect-square">
+              {laptop.discountPercentage && (
+                <div className="absolute top-4 left-4 z-10 bg-red-500 text-white font-bold px-2 py-1 rounded-md">
+                  -{laptop.discountPercentage}%
+                </div>
+              )}
               <Image
                 src={laptop.image}
                 alt={laptop.name}
@@ -128,11 +132,23 @@ function ProductDetails() {
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{laptop.name}</h1>
-                <div className="mb-6">
-                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">
-                  {currentPrice}
-                </p>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{laptop.name}</h1>                <div className="mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    {currentPrice}
+                  </p>
+                  {(selectedVariant && laptop.variants?.find(v => v.id === selectedVariant)?.originalPrice) ? (
+                    <p className="text-lg text-gray-500 line-through">
+                      {laptop.variants.find(v => v.id === selectedVariant)?.originalPrice}
+                    </p>
+                  ) : (
+                    laptop.originalPrice && (
+                      <p className="text-lg text-gray-500 line-through">
+                        {laptop.originalPrice}
+                      </p>
+                    )
+                  )}
+                </div>
                 <p className="text-sm text-green-600 dark:text-green-400">
                   Termasuk: <br />
                   Garansi Service 1 Bulan <br />
@@ -140,11 +156,10 @@ function ProductDetails() {
                   Tas & Mouse <br />
                   Free Install Aplikasi
                 </p>
-              </div>              {laptop.variants && laptop.variants.length > 0 && (
+              </div>{laptop.variants && laptop.variants.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Varian</h3>
-                  <div className="flex flex-col gap-3">
-                    <div 
+                  <div className="flex flex-col gap-3">                    <div 
                       key="default"
                       onClick={() => setSelectedVariant(null)}
                       className={`border ${!selectedVariant ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'} rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition`}
@@ -153,10 +168,21 @@ function ProductDetails() {
                         <div>
                           <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{laptop.details}</p>
                         </div>
-                        <div className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</div>
+                        <div className="flex flex-col items-end">
+                          <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                          {laptop.originalPrice && (
+                            <span className="text-xs text-gray-500 line-through">
+                              {laptop.originalPrice}
+                            </span>
+                          )}
+                          {laptop.discountPercentage && (
+                            <span className="text-xs text-red-500 font-semibold">
+                              Save {laptop.discountPercentage}%
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    {laptop.variants.map((variant) => (
+                    </div>                    {laptop.variants.map((variant) => (
                       <div 
                         key={variant.id}
                         onClick={() => setSelectedVariant(variant.id)}
@@ -166,7 +192,19 @@ function ProductDetails() {
                           <div>
                             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{variant.details}</p>
                           </div>
-                          <div className="text-blue-600 dark:text-blue-400 font-bold">{variant.price}</div>
+                          <div className="flex flex-col items-end">
+                            <span className="text-blue-600 dark:text-blue-400 font-bold">{variant.price}</span>
+                            {variant.originalPrice && (
+                              <span className="text-xs text-gray-500 line-through">
+                                {variant.originalPrice}
+                              </span>
+                            )}
+                            {variant.discountPercentage && (
+                              <span className="text-xs text-red-500 font-semibold">
+                                Save {variant.discountPercentage}%
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -251,6 +289,11 @@ function ProductDetails() {
                   className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg"
                 >
                   <div className="relative bg-gradient-to-b from-gray-700 to-gray-900 aspect-square">
+                    {relatedLaptop.discountPercentage && (
+                      <div className="absolute top-2 left-2 z-10 bg-red-500 text-white font-bold px-2 py-1 rounded-md text-xs">
+                        -{relatedLaptop.discountPercentage}%
+                      </div>
+                    )}
                     <Image
                       src={relatedLaptop.image}
                       alt={relatedLaptop.name}
@@ -258,7 +301,7 @@ function ProductDetails() {
                       style={{ objectFit: 'contain' }}
                       className="p-3"
                     />
-                  </div>                  <div className="p-4">
+                  </div><div className="p-4">
                     <div className="flex flex-wrap gap-1 mb-2">
                       {Array.isArray(relatedLaptop.condition) ? (
                         relatedLaptop.condition.map((tag, index) => (
@@ -273,9 +316,15 @@ function ProductDetails() {
                       )}
                     </div>
                     <h3 className="text-base font-semibold text-gray-900 dark:text-white truncate">{relatedLaptop.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{relatedLaptop.specs}</p>
-                    <div className="mt-3 flex justify-between items-center">
-                      <span className="text-blue-600 dark:text-blue-400 font-bold">{relatedLaptop.price}</span>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{relatedLaptop.specs}</p>                    <div className="mt-3 flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <span className="text-blue-600 dark:text-blue-400 font-bold">{relatedLaptop.price}</span>
+                        {relatedLaptop.originalPrice && (
+                          <span className="text-xs text-gray-500 line-through">
+                            {relatedLaptop.originalPrice}
+                          </span>
+                        )}
+                      </div>
                       <Link 
                         href={`/catalog/detail?id=${relatedLaptop.id}`}
                         className="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded transition"

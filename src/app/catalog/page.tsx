@@ -20,14 +20,15 @@ export default function Catalog() {
     if (filters.brand) {
       result = result.filter(laptop => laptop.brand === filters.brand);
     }
-    
-    // Filter by processor
+      // Filter by processor
     if (filters.processor) {
       result = result.filter(laptop => {
         if (filters.processor === 'i5') {
           return laptop.specs.includes('Core i5');
         } else if (filters.processor === 'i7') {
           return laptop.specs.includes('Core i7');
+        } else if (filters.processor === 'Celeron') {
+          return laptop.specs.includes('Celeron');
         }
         return true;
       });
@@ -126,7 +127,7 @@ export default function Catalog() {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Processor</option>
-                <option value="celeron">Intel Celeron</option>
+                <option value="Celeron">Intel Celeron</option>
                 <option value="i5">Intel Core i5</option>
                 <option value="i7">Intel Core i7</option>
               </select>
@@ -168,8 +169,13 @@ export default function Catalog() {
               <div 
                 key={laptop.id} 
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 hover:shadow-lg"
-              >              
-                <div className="relative bg-gradient-to-b from-gray-700 to-gray-900 aspect-square">
+              >                <div className="relative bg-gradient-to-b from-gray-700 to-gray-900 aspect-square">
+                  {/* Discount badge */}
+                  {laptop.discountPercentage && (
+                    <div className="absolute top-2 left-2 z-10 bg-red-500 text-white font-bold px-2 py-1 rounded-md text-xs">
+                      -{laptop.discountPercentage}%
+                    </div>
+                  )}
                   {/* Image for all laptops */}
                   <div className="absolute inset-0 flex items-center justify-center p-4">
                     <Image
@@ -180,7 +186,7 @@ export default function Catalog() {
                       className="p-3"
                     />
                   </div>
-                </div>                <div className="p-6">                  <div className="flex flex-wrap gap-1 mb-2">
+                </div><div className="p-6">                  <div className="flex flex-wrap gap-1 mb-2">
                     {Array.isArray(laptop.condition) ? (
                       laptop.condition.map((tag, index) => (
                         <button 
@@ -202,8 +208,15 @@ export default function Catalog() {
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">{laptop.name}</h3>
                   <p className="text-gray-700 dark:text-gray-300 text-sm mt-2 font-medium">{laptop.specs}</p>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{laptop.details}</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{laptop.description}</p>                  <div className="mt-4 flex justify-between items-center">
-                    <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{laptop.description}</p>                <div className="mt-4 flex justify-between items-center">
+                    <div className="flex flex-col">
+                      <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                      {laptop.originalPrice && (
+                        <span className="text-xs text-gray-500 line-through">
+                          {laptop.originalPrice}
+                        </span>
+                      )}
+                    </div>
                     <Link 
                       href={`/catalog/detail?id=${laptop.id}`}
                       className="text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"

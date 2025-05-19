@@ -24,6 +24,11 @@ export default function FeaturedLaptops() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {featuredLaptops.map((laptop) => (            <div key={laptop.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 hover:shadow-lg">              <div className="relative bg-gradient-to-b from-gray-700 to-gray-900 flex justify-center items-center aspect-[4/3]">
+                {laptop.discountPercentage && (
+                  <div className="absolute top-3 left-3 z-10 bg-red-500 text-white font-bold px-3 py-1 rounded-md text-sm">
+                    -{laptop.discountPercentage}%
+                  </div>
+                )}
                 <div className="relative w-full h-full py-3 px-4 flex justify-center items-center">
                   <Image
                     src={laptop.image}
@@ -33,7 +38,7 @@ export default function FeaturedLaptops() {
                     priority={laptop.id === 1}
                   />
                 </div>
-              </div>              <div className="p-6">
+              </div><div className="p-6">
                 <div className="flex flex-wrap gap-1 mb-2">
                   {Array.isArray(laptop.condition) ? (
                     laptop.condition.map((tag, index) => (
@@ -50,7 +55,14 @@ export default function FeaturedLaptops() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">{laptop.name}</h3>
                 <p className="text-gray-700 dark:text-gray-300 mt-1 font-medium">{laptop.specs}</p>
                 <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{laptop.details}</p>                <div className="mt-4 flex justify-between items-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                  <div className="flex flex-col">
+                    <span className="text-blue-600 dark:text-blue-400 font-bold">{laptop.price}</span>
+                    {laptop.originalPrice && (
+                      <span className="text-xs text-gray-500 line-through">
+                        {laptop.originalPrice}
+                      </span>
+                    )}
+                  </div>
                   <Link 
                     href={`/catalog/detail?id=${laptop.id}`}
                     className="text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"

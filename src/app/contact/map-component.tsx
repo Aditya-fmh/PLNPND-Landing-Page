@@ -40,7 +40,7 @@ export default function MapComponent({ position }: MapComponentProps) {
               <strong className="text-lg">Pusat Laptop Nusantara Pangandaran</strong><br />
               <span className="text-sm text-gray-600">Toko Laptop Bekas Berkualitas</span><br />
               <hr className="my-2" />
-              Jam Buka: 08:00 - 19:30 WIB<br />
+              Jam Buka: 09:00 - 19:30 WIB<br />
               WhatsApp: <a href="https://wa.me/6288221957963" className="text-blue-600 hover:underline">088221957963</a>
             </div>
           </Popup>

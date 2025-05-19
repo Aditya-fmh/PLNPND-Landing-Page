@@ -12,7 +12,7 @@ export default function Footer() {
             <p className="text-gray-300 mb-2">Toko laptop bekas berkualitas di Pangandaran</p>
             <div className="flex items-center mt-4 text-gray-300">
               <FaClock className="mr-2" />
-              <p>08:00 - 19:30 WIB</p>
+              <p>09:00 - 19:30 WIB</p>
             </div>
           </div>
           
@@ -55,7 +55,9 @@ export default function Footer() {
             </div>
             <div className="flex items-center text-gray-300">
               <FaMapMarkerAlt className="mr-2 text-red-500" />
-              <p>Pangandaran, Jawa Barat</p>
+              <a href="https://maps.app.goo.gl/tebFkejDC1qSXNoS9" className="hover:text-white transition">
+              Wonoharjo, Pangandaran, Jawa Barat
+              </a>
             </div>
           </div>
         </div>

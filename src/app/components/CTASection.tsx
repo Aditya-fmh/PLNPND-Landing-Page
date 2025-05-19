@@ -28,7 +28,7 @@ export default function CTASection() {
           </a>
         </div>
         <div className="mt-8 text-blue-100">
-          <p>Jam Buka: 08:00 - 19:30 WIB</p>
+          <p>Jam Buka: 09:00 - 19:30 WIB</p>
         </div>
       </div>
     </section>

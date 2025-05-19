@@ -80,34 +80,32 @@ export default function Catalog() {
             Temukan laptop bekas berkualitas dengan harga terjangkau
           </p>
         </div>
-        
-        {/* Filters - Simple version */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filter</h2>          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Filters - Simple version */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6 mb-8">
+          <h2 className="text-base md:text-lg font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">Filter</h2>          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Harga
               </label>
               <select 
                 name="price"
                 value={filters.price}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-2 py-1 md:px-3 md:py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Harga</option>
                 <option value="low">Harga Terendah</option>
                 <option value="high">Harga Tertinggi</option>
               </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            </div>            <div>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Merk
               </label>
               <select 
                 name="brand"
                 value={filters.brand}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-2 py-1 md:px-3 md:py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Merk</option>
                 <option value="lenovo">Lenovo</option>
@@ -117,14 +115,14 @@ export default function Catalog() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Processor
               </label>
               <select 
                 name="processor"
                 value={filters.processor}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-2 py-1 md:px-3 md:py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Processor</option>
                 <option value="Celeron">Intel Celeron</option>
@@ -133,14 +131,14 @@ export default function Catalog() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Kegunaan
               </label>
               <select 
                 name="condition"
                 value={filters.condition}
                 onChange={handleFilterChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-2 py-1 md:px-3 md:py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Semua Kegunaan</option>
                 <option value="Sekolah">Sekolah</option>
@@ -149,13 +147,12 @@ export default function Catalog() {
                 <option value="Gaming Ringan">Gaming Ringan</option>
               </select>
             </div>
-          </div>
-            {/* Reset filters button */}
+          </div>          {/* Reset filters button */}
           {(filters.price || filters.brand || filters.processor || filters.condition) && (
-            <div className="mt-4 text-right">
+            <div className="mt-3 md:mt-4 text-right">
               <button
                 onClick={() => setFilters({ price: '', brand: '', processor: '', condition: '' })}
-                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                className="text-xs md:text-sm text-blue-600 hover:text-blue-800 font-medium"
               >
                 Reset Filter
               </button>

@@ -1,19 +1,54 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Toggle mobile menu and manage body scroll
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    
+    // Prevent scrolling when menu is open
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  // Cleanup function when component unmounts
+  useEffect(() => {
+    return () => {
+      // Restore body scrolling when component unmounts
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  // Close menu when escape key is pressed
+  useEffect(() => {
+    const handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        document.body.style.overflow = 'auto';
+      }
+    };
+
+    window.addEventListener('keydown', handleEscapeKey);
+    return () => window.removeEventListener('keydown', handleEscapeKey);
+  }, [mobileMenuOpen]);
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3">          <Image 
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md dark:bg-gray-900">      <div className="container mx-auto px-4 py-3 flex justify-between items-center relative">        <Link href="/" className="flex items-center space-x-2 md:space-x-3 z-50 max-w-[70%]">          <Image 
             src="/new-logo.png" 
             alt="Pusat Laptop Nusantara Pangandaran" 
-            width={50} 
-            height={50} 
-            className="rounded-md"
+            width={40} 
+            height={40} 
+            className="rounded-md min-w-[40px]"
           />
-          <div className="hidden md:flex flex-col">
-            <h1 className="text-lg font-bold text-gray-800 dark:text-white">Pusat Laptop Nusantara</h1>
+          <div className="flex flex-col">
+            <h1 className="text-sm md:text-lg font-bold text-gray-800 dark:text-white truncate">Pusat Laptop Nusantara</h1>
             <p className="text-xs text-gray-600 dark:text-gray-300">Pangandaran</p>
           </div>
         </Link>
@@ -29,14 +64,57 @@ export default function Navbar() {
             Kontak
           </Link>
         </div>
-        
-        <div className="md:hidden">
-          {/* Mobile menu button - we'll implement this later if needed */}
-          <button className="text-gray-700 dark:text-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
+          <div className="md:hidden z-50">
+          {/* Mobile menu button */}
+          <button 
+            onClick={toggleMobileMenu}
+            className="text-gray-700 dark:text-gray-300"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            )}
           </button>
+        </div>
+      </div>{/* Fullscreen mobile menu with slide animation */}      <div 
+        className={`fixed inset-0 bg-white dark:bg-gray-900 z-40 transform transition-transform duration-300 ease-in-out ${
+          mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        } md:hidden flex flex-col pt-16`}
+      >
+          <div className="flex flex-col items-center justify-center flex-grow">
+          <div className="flex flex-col space-y-10 text-center">
+            <Link 
+              href="/" 
+              className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Beranda
+            </Link>
+            <Link 
+              href="/catalog" 
+              className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Katalog
+            </Link>
+            <Link 
+              href="/contact" 
+              className="text-2xl text-gray-800 hover:text-blue-600 dark:text-white dark:hover:text-blue-400 font-medium transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Kontak
+            </Link>
+          </div>
+        </div>
+        
+        <div className="p-6 text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-400">Pusat Laptop Nusantara Pangandaran</p>
         </div>
       </div>
     </nav>

@@ -223,7 +223,7 @@ function ProductDetails() {
                     <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Detail</dt>
                     <dd className="text-gray-900 dark:text-white">{currentDetails}</dd>
                   </div>                  <div className="flex">
-                    <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Kondisi</dt>
+                    <dt className="w-28 flex-shrink-0 text-gray-500 dark:text-gray-400">Kondisi & Kegunaan</dt>
                     <dd className="text-gray-900 dark:text-white">
                       {Array.isArray(laptop.condition) ? (
                         <div className="flex flex-wrap gap-1">
